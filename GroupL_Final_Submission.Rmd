@@ -47,7 +47,9 @@ iris_data$Species <- as.factor(iris_data$Species)
 iris_head <- head(iris_data)
 ```
 
-# 1. Introducation 
+> **Portfolio correction, November 11, 2026.** The interpretation in Sections 3.4 and 4.1 has been updated to reflect the ANOVA in Table 4. The [original group submission](https://github.com/FBELSABAH/Modeling-Sepal-Length-in-Iris-Flowers-Using-Multiple-Linear-Regression/tree/9fd400f95b5dc56e8ae717de343555213b36a79c) is available for reference.
+
+# 1. Introduction
 
 The iris dataset is one of the most widely used datasets in statistics and machine learning, providing a clear example of how biological measurements can help distinguish between species. In this project, we investigate how petal length can be used to predict sepal length, and whether this relationship differs across the three iris species: setosa, versicolor, and virginica. Sepal length is an important morphological characteristic and is commonly used as a distinguishing feature in botanical classification.
 
@@ -66,7 +68,7 @@ kable(
 )
 ```
 
-# 2.Exploratory data analysis
+# 2. Exploratory data analysis
 
 In this section, we explore the distribution of the response variable (sepal length) and examine how it relates to the primary numerical predictor (petal length). We also investigate whether these relationships differ across the three iris species. Summary statistics provide an overview of the dataset, while the accompanying visualizations help reveal trends, patterns, and potential species-specific differences. This exploratory analysis guides our modeling decisions in the subsequent multiple linear regression section
 
@@ -135,7 +137,7 @@ ggplot(iris_data, aes(x = Petal.Length, y = Sepal.Length, color = Species)) +
   )
 ```
 
-# 3.Multiple linear regression
+# 3. Multiple linear regression
 
 ## 3.1 Methods
 
@@ -188,7 +190,7 @@ kable(
 )
 ```
 
-The ANOVA test compares a reduced model (no interaction) to the full model (with interaction terms). A small p-value indicates that including the interaction significantly improves the model, meaning that the relationship between petal length and sepal length differs across species.
+Allowing each species its own slope adds two parameters. The joint test gives F(2, 144) = `r round(anova_results[2, "F"], 3)` and p = `r sprintf("%.4f", anova_results[2, "Pr(>F)"])`. At the 5% level, the data provide insufficient evidence that the slopes differ by species.
 
 ## 3.5 Residual Analysis
 
@@ -207,17 +209,17 @@ The Q–Q plot shows that most standardized residuals fall close to the theoreti
 
 Overall, the diagnostic plots do not reveal any major violations of regression assumptions, suggesting that the multiple linear regression model provides a reasonable fit for the data.
 
-# 4.Discussions
+# 4. Discussion
 
 ## 4.1 Conclusions
 
-The results of our multiple linear regression analysis indicate that petal length is a strong predictor of sepal length in iris flowers. In addition, the statistically significant interaction terms show that the relationship between petal length and sepal length differs across species. In particular, *versicolor* and *virginica* have steeper slopes than *setosa*, meaning their sepal length increases more rapidly with petal length. 
+Within each species, flowers with longer petals generally had longer sepals. The estimated slopes were steeper for *versicolor* and *virginica* than for *setosa*, but the joint test in Table 4 leaves considerable uncertainty about those differences.
 
-Overall, the model supports the conclusion that both petal length and species identity play important roles in explaining variation in sepal length. These findings agree with the exploratory plots, which showed species-specific clustering and different apparent linear trends.
+A common slope with a separate intercept for each species is a reasonable summary of these 150 flowers. A larger sample with more overlap in petal length would help estimate how much the slopes vary.
 
 ## 4.2 Limitations
 
-A key limitation of this study is that all measurements come from the built-in iris dataset, which is small (150 observations) and highly structured. The dataset includes only three species and relatively clean measurements, so the results may not generalize to larger or more variable botanical datasets. Additionally, although the interaction model captures differences in slopes across species, it assumes linearity and constant variance; slight deviations from these assumptions were visible in the residual diagnostics.
+A key limitation of this study is that all measurements come from the built-in iris dataset, which is small (150 observations) and highly structured. The dataset includes only three species and relatively clean measurements, so the results may not generalize to larger or more variable botanical datasets. Additionally, although the interaction model allows the slopes to differ across species, it assumes linearity and constant variance; slight deviations from these assumptions were visible in the residual diagnostics.
 
 ## 4.3 Further questions
 
